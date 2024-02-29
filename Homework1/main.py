@@ -1,6 +1,7 @@
 import math
 from collections import defaultdict
 import numpy as np
+import random
 
 
 # ex1
@@ -8,8 +9,8 @@ def calculate_precision():
     p = 1.0
     while 1 + 10 ** (-p) != 1:
         p += 1
-    #print("Valoarea p-1 este: ", p - 1)
-    #print("Valoarea u = 10 ** (-p) este: ", 10 ** (-(p - 1)))
+    # print("Valoarea p-1 este: ", p - 1)
+    # print("Valoarea u = 10 ** (-p) este: ", 10 ** (-(p - 1)))
     return 10 ** (-(p - 1))
 
 
@@ -28,15 +29,15 @@ def check_non_associativity():
 
 
 def check_multiplication_associativity():
-    y = z = calculate_precision()
-    x = 1.0
-    while (x * y) * z == x * (y * z):
-        x = x * 1.1
-    return x, (x * y) * z, x * (y * z)
-
+    while True:
+        a = random.random()
+        b = random.random()
+        c = random.random()
+        if (a * b) * c != a * (b * c):
+            return f"Multiplication is not associative for values: \n{a}\n{b}\n{c} \n"
 
 print(check_non_associativity())
-print("The product operation is associative for : ", check_multiplication_associativity())
+print(check_multiplication_associativity())
 
 
 # ex3
