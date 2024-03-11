@@ -1,7 +1,8 @@
 import math
-from collections import defaultdict
-import numpy as np
 import random
+from collections import defaultdict
+
+import numpy as np
 
 
 # ex1
@@ -9,12 +10,13 @@ def calculate_precision():
     p = 1.0
     while 1 + 10 ** (-p) != 1:
         p += 1
-    # print("Valoarea p-1 este: ", p - 1)
+    print("Valoarea p-1 este: ", p - 1)
     # print("Valoarea u = 10 ** (-p) este: ", 10 ** (-(p - 1)))
     return 10 ** (-(p - 1))
 
 
-print(calculate_precision())
+# print(calculate_precision())
+print()
 
 
 # ex2
@@ -36,8 +38,10 @@ def check_multiplication_associativity():
         if (a * b) * c != a * (b * c):
             return f"Multiplication is not associative for values: \n{a}\n{b}\n{c} \n"
 
+
 print(check_non_associativity())
 print(check_multiplication_associativity())
+print()
 
 
 # ex3
