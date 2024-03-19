@@ -62,7 +62,7 @@ def QR_householder(A, b):
             teta = sum / beta
             for i in range(r, n):
                 q[i, j] = q[i, j] - teta * u[i]
-    return q
+    return q.T
 
 
 # ex3
@@ -70,6 +70,7 @@ def solve_system_QR(A, b):
     Q, R = np.linalg.qr(A)
     x = np.linalg.solve(np.dot(Q, R), b)
     return x
+
 
 
 def solve_system_householder(A, b):
@@ -103,14 +104,9 @@ def inverse_matrix_QR(A, b, Q):
     for j in range(n):
         b = np.zeros(n)
         for i in range(n):
-            b[i] = Q[i][j]
+            b[i] = Q.T[i][j]
         # se rezolva sis superior triunghilar R*x=b
-        x = np.zeros(n)
-        for i in range(n - 1, -1, -1):
-            suma = 0.0
-            for k in range(i + 1, n):
-                suma += A[i][k] * x[k]
-            x[i] = (b[i] - suma) / A[i][i]
+        x = solve_system_householder(A, b)
         for i in range(0, n):
             A_inversa[i][j] = x[i]
     return A_inversa
@@ -118,12 +114,12 @@ def inverse_matrix_QR(A, b, Q):
 
 ##########################
 
-# A = np.array([[0, 0, 4], [1, 2, 3], [0, 1, 2]])
-# s = np.array([3, 2, 1])
+A = np.array([[9, 7, 4], [0, 2, 3], [0, 0, 2]])
+s = np.array([3, 2, 1])
 
-n = 100
-A = np.random.rand(n, n)
-s = np.random.rand(n)
+# n = 100
+# A = np.random.rand(n, n)
+# s = np.random.rand(n)
 
 print("\n Exercitiu 1: \n")
 b = calculate_b(A, s)
@@ -135,7 +131,7 @@ print(b)
 print("\n Exercitiu 2: \n")
 Q = QR_householder(A, b)
 print("Q este: ")
-print(Q.T)
+print(Q)
 print("R este: ")
 print(A)
 
