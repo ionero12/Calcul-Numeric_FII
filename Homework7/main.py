@@ -1,13 +1,11 @@
+import numpy as np
 import random
 import sys
 
-import numpy as np
+eps = 10 ** (-9)  # epsilon
 
 
 def horner(coefficients, x):
-    """
-    Evaluarea polinomului utilizând schema lui Horner.
-    """
     result = coefficients[0]
     for coeff in coefficients[1:]:
         result = result * x + coeff
@@ -16,7 +14,6 @@ def horner(coefficients, x):
 
 def muller_method(coefficients, e, R):
     roots = []
-    i = 0
     left_bound = -R
     increment = 0.05
     while left_bound <= R:
@@ -29,7 +26,7 @@ def muller_method(coefficients, e, R):
             k = 3
             h_0 = x_1 - x_0
             h_1 = x_2 - x_1
-            if (np.abs(h_0) < e or np.abs(h_1) < e or np.abs(h_1 + h_0) < e):
+            if np.abs(h_0) < e or np.abs(h_1) < e or np.abs(h_1 + h_0) < e:
                 break
             if (horner(coefficients, x_1) == float('inf') or horner(coefficients, x_0) == float('inf') or horner(
                     coefficients, x_2) == float('inf')):
@@ -60,14 +57,15 @@ def muller_method(coefficients, e, R):
             if np.abs(delta_x) < e or k > 1000 or np.abs(delta_x) > 10 ** 8:
                 break
         if np.abs(delta_x) < e and computed_values == 1:
-            found = 0
+            found = False
             for root in roots:
                 if np.abs(x_3 - root) < e:
-                    found = 1
+                    found = True
                     break
-            if found == 0:
+            if not found:
                 roots.append(x_3)
         left_bound += increment
+
     return roots
 
 
@@ -80,6 +78,43 @@ def write_roots_to_file(roots, filename, epsilon):
         roots = [root for root in roots if root != float('inf')]
         for root in roots:
             file.write(str(root) + "\n")
+
+
+def compute_real_roots_interval(roots):
+    if not roots:
+        return None
+    else:
+        inf = -max(roots)
+        sup = max(roots)
+
+        return [round(inf), round(sup)]
+
+
+def run_example(coefficients, filename):
+    R = 3  # intervalul [-R, R]
+
+    roots = muller_method(coefficients, eps, R)
+    if roots:
+        print("Rădăcinile găsite:", roots)
+        write_roots_to_file(roots, filename, eps)
+        interval = compute_real_roots_interval(roots)
+        if interval:
+            print("Intervalul în care se găsesc toate rădăcinile reale:", interval)
+        else:
+            print("Nu s-au putut găsi rădăcini reale în intervalul dat.")
+    else:
+        print("Nu s-au putut găsi rădăcini în intervalul dat.")
+
+
+coefficients1 = [1.0, -6.0, 11.0, -6.0]
+coefficients2 = [42.0, -55.0, -42.0, 49.0, -6.0]
+coefficients3 = [8.0, -38.0, 49.0, -22.0, 3.0]
+coefficients4 = [1.0, -6.0, 13.0, -12.0, 4.0]
+
+run_example(coefficients1, "radacini1.txt")
+run_example(coefficients2, "radacini2.txt")
+run_example(coefficients3, "radacini3.txt")
+run_example(coefficients4, "radacini4.txt")
 
 
 # bonus
@@ -129,19 +164,6 @@ def newton_fifth_order_method(f, f_prime, x0, epsilon, max_iter=1000):
         x_n = x_np1
     return roots
 
-
-# Exemplu de utilizare
-coefficients = [1.0, -6.0, 11.0, -6]
-n = len(coefficients) - 1
-eps = 1e-10
-R = 10
-
-roots = muller_method(coefficients, eps, R)
-if roots:
-    print("Rădăcinile găsite:", roots)
-    write_roots_to_file(roots, "roots.txt", eps)
-else:
-    print("Nu s-au putut găsi rădăcini în intervalul dat.")
 
 # bonus
 initial_guess = -3
