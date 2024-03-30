@@ -1,5 +1,7 @@
 import math
 
+import numpy as np
+
 eps = 10 ** -8
 epsilon = 10 ** -8
 
@@ -86,29 +88,29 @@ def ex1_b_met1(filename):
 #     return valori, ind_col, inceput_linii
 
 
-def build_even_more_efficient_matrixes(matrix_lines):
-    valori = []
-    ind_col = []
-    inceput_linii = [-1] * (len(matrix_lines) + 1)
-
-    for current_line, line in enumerate(matrix_lines):
-        line_array = line.split(', ')
-        for current_column, value in enumerate(line_array):
-            if value != '0':
-                current_value = float(value)
-                if inceput_linii[current_line] == -1:
-                    inceput_linii[current_line] = len(valori)
-                flag = False
-                for i in range(inceput_linii[current_line], len(valori)):
-                    if ind_col[i] == current_column:
-                        valori[i] += current_value
-                        flag = True
-                if not flag:
-                    valori.append(current_value)
-                    ind_col.append(current_column)
-
-    inceput_linii[-1] = len(valori) + 1
-    return valori, ind_col, inceput_linii, len(matrix_lines)
+# def build_even_more_efficient_matrixes(matrix_lines):
+#     valori = []
+#     ind_col = []
+#     inceput_linii = [-1] * (len(matrix_lines) + 1)
+#
+#     for current_line, line in enumerate(matrix_lines):
+#         line_array = line.split(', ')
+#         for current_column, value in enumerate(line_array):
+#             if value != '0':
+#                 current_value = float(value)
+#                 if inceput_linii[current_line] == -1:
+#                     inceput_linii[current_line] = len(valori)
+#                 flag = False
+#                 for i in range(inceput_linii[current_line], len(valori)):
+#                     if ind_col[i] == current_column:
+#                         valori[i] += current_value
+#                         flag = True
+#                 if not flag:
+#                     valori.append(current_value)
+#                     ind_col.append(current_column)
+#
+#     inceput_linii[-1] = len(valori) + 1
+#     return valori, ind_col, inceput_linii, len(matrix_lines)
 
 
 def ex2(a, b, x):
@@ -158,8 +160,8 @@ def ex3(a, b, x, n):
 
 
 # prima metoda
-# a, n = ex1_met1('tema4files/a_1.txt')
-# b = ex1_b_met1('tema4files/b_1.txt')
+a, n = ex1_met1('tema4files/a_1.txt')
+b = ex1_b_met1('tema4files/b_1.txt')
 # a, n = ex1_met1('tema4files/a_2.txt')
 # b = ex1_b_met1('tema4files/b_2.txt')
 # a, n = ex1_met1('tema4files/a_3.txt')
@@ -183,36 +185,36 @@ def ex3(a, b, x, n):
 # b = ex1_b_met2('tema4files/b_5.txt')
 
 
-# print("n1: \n")
-# print(n)
-# print("\n b1: \n")
-# # print(b)
-
-# x = np.zeros(n)
-# x = ex2(a, b, x)
-# print("\n x1: \n")
-# print(x)
-# print("\n ex3: \n")
-# print(ex3(a, b, x, n))
-
-matrix_lines = [
-    "102.5, 0, 2.5, 0, 0",
-    "3.5, 104.88, 1.05, 0, 0.33",
-    "0, 0, 100.0, 0, 0",
-    "0, 1.3, 0, 101.3, 0",
-    "0.73, 0, 0, 1.5, 102.23"
-]
-
-valori, ind_col, inceput_linii, n = build_even_more_efficient_matrixes(matrix_lines)
-
-print("n: ")
+print("n1: \n")
 print(n)
-print("valori: ")
-print(valori)
-print("ind_col: ")
-print(ind_col)
-print("inceput_linii: ")
-print(inceput_linii)
+print("\n b1: \n")
+# print(b)
+
+x = np.zeros(n)
+x = ex2(a, b, x)
+print("\n x1: \n")
+print(x)
+print("\n ex3: \n")
+print(ex3(a, b, x, n))
+
+# matrix_lines = [
+#     "102.5, 0, 2.5, 0, 0",
+#     "3.5, 104.88, 1.05, 0, 0.33",
+#     "0, 0, 100.0, 0, 0",
+#     "0, 1.3, 0, 101.3, 0",
+#     "0.73, 0, 0, 1.5, 102.23"
+# ]
+
+#valori, ind_col, inceput_linii, n = build_even_more_efficient_matrixes(matrix_lines)
+
+# print("n: ")
+# print(n)
+# print("valori: ")
+# print(valori)
+# print("ind_col: ")
+# print(ind_col)
+# print("inceput_linii: ")
+# print(inceput_linii)
 
 # x = np.zeros(n)
 # x = ex2_met2(valori, ind_col, inceput_linii, b, x)
