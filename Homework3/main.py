@@ -72,7 +72,6 @@ def solve_system_QR(A, b):
     return x
 
 
-
 def solve_system_householder(A, b):
     n = len(b)
     x = np.zeros(n)
@@ -112,56 +111,76 @@ def inverse_matrix_QR(A, b, Q):
     return A_inversa
 
 
+# bonus
+def qr_iteration(A, epsilon=1e-10):
+    Ak = np.copy(A)
+    n = A.shape[0]
+    while True:
+        Q, R = np.linalg.qr(Ak)
+        Ak1 = np.zeros_like(Ak)
+        for i in range(n):
+            for j in range(i, n):
+                Ak1[i, :] += R[i, j] * Q[j, :]
+        if np.linalg.norm(Ak1 - Ak) < epsilon:
+            break
+        Ak = Ak1
+    return Ak1
+
+
 ##########################
+#
+# A = np.array([[9, 7, 4], [0, 2, 3], [0, 0, 2]])
+# s = np.array([3, 2, 1])
+#
+# # n = 100
+# # A = np.random.rand(n, n)
+# # s = np.random.rand(n)
+#
+# print("\n Exercitiu 1: \n")
+# b = calculate_b(A, s)
+# A_init = A.copy()
+# b_init = b.copy()
+# print("b este: ")
+# print(b)
+#
+# print("\n Exercitiu 2: \n")
+# Q = QR_householder(A, b)
+# print("Q este: ")
+# print(Q)
+# print("R este: ")
+# print(A)
+#
+# print("\n Exercitiu 3: \n")
+# x_QR = solve_system_QR(A, b)
+# print("x_QR este: ")
+# print(x_QR)
+# x_Householder = solve_system_householder(A, b)
+# print("x_Householder este: ")
+# print(x_Householder)
+# print("Norma euclidiana este:", np.linalg.norm(x_QR - x_Householder))
+#
+# print("\n Exercitiu 4: \n")
+# error_Ax_b_Householder = np.linalg.norm(np.dot(A_init, x_Householder) - b_init)
+# error_Ax_b_QR = np.linalg.norm(np.dot(A_init, x_QR) - b_init)
+# error_x_s_Householder = np.linalg.norm(x_Householder - s) / np.linalg.norm(s)
+# error_x_s_QR = np.linalg.norm(x_QR - s) / np.linalg.norm(s)
+# print("Erorile sunt:")
+# print("Norma pentru metoda Householder:", error_Ax_b_Householder, "-> Norma e mai mica decat epsilon: ",
+#       is_smaller(error_Ax_b_Householder))
+# print("Norma pentru metoda QR:", error_Ax_b_QR, "-> Norma e mai mica decat epsilon: ", is_smaller(error_Ax_b_QR))
+# print("Norma pentru metoda Householder:", error_x_s_Householder, "-> Norma e mai mica decat epsilon: ",
+#       is_smaller(error_x_s_Householder))
+# print("Norma pentru metoda QR:", error_x_s_QR, "-> Norma e mai mica decat epsilon: ", is_smaller(error_x_s_QR))
+#
+# print("\n Exercitiu 5: \n")
+# A_inversa_Householder = inverse_matrix_QR(A, b, Q)
+# print("Inversa matricei A folosind QR este: ")
+# print(A_inversa_Householder)
+# A_inv_lib = np.linalg.inv(A_init)
+# error_A_inv = np.linalg.norm(A_inversa_Householder - A_inv_lib)
+# print("Norma pentru diferenta dintre inversa calculata cu Householder si inversa biblioteca:",
+#       format(error_A_inv, '.15f'), "-> Norma e mai mica decat epsilon: ", is_smaller(error_A_inv))
 
-A = np.array([[9, 7, 4], [0, 2, 3], [0, 0, 2]])
-s = np.array([3, 2, 1])
-
-# n = 100
-# A = np.random.rand(n, n)
-# s = np.random.rand(n)
-
-print("\n Exercitiu 1: \n")
-b = calculate_b(A, s)
-A_init = A.copy()
-b_init = b.copy()
-print("b este: ")
-print(b)
-
-print("\n Exercitiu 2: \n")
-Q = QR_householder(A, b)
-print("Q este: ")
-print(Q)
-print("R este: ")
-print(A)
-
-print("\n Exercitiu 3: \n")
-x_QR = solve_system_QR(A, b)
-print("x_QR este: ")
-print(x_QR)
-x_Householder = solve_system_householder(A, b)
-print("x_Householder este: ")
-print(x_Householder)
-print("Norma euclidiana este:", np.linalg.norm(x_QR - x_Householder))
-
-print("\n Exercitiu 4: \n")
-error_Ax_b_Householder = np.linalg.norm(np.dot(A_init, x_Householder) - b_init)
-error_Ax_b_QR = np.linalg.norm(np.dot(A_init, x_QR) - b_init)
-error_x_s_Householder = np.linalg.norm(x_Householder - s) / np.linalg.norm(s)
-error_x_s_QR = np.linalg.norm(x_QR - s) / np.linalg.norm(s)
-print("Erorile sunt:")
-print("Norma pentru metoda Householder:", error_Ax_b_Householder, "-> Norma e mai mica decat epsilon: ",
-      is_smaller(error_Ax_b_Householder))
-print("Norma pentru metoda QR:", error_Ax_b_QR, "-> Norma e mai mica decat epsilon: ", is_smaller(error_Ax_b_QR))
-print("Norma pentru metoda Householder:", error_x_s_Householder, "-> Norma e mai mica decat epsilon: ",
-      is_smaller(error_x_s_Householder))
-print("Norma pentru metoda QR:", error_x_s_QR, "-> Norma e mai mica decat epsilon: ", is_smaller(error_x_s_QR))
-
-print("\n Exercitiu 5: \n")
-A_inversa_Householder = inverse_matrix_QR(A, b, Q)
-print("Inversa matricei A folosind QR este: ")
-print(A_inversa_Householder)
-A_inv_lib = np.linalg.inv(A_init)
-error_A_inv = np.linalg.norm(A_inversa_Householder - A_inv_lib)
-print("Norma pentru diferenta dintre inversa calculata cu Householder si inversa biblioteca:",
-      format(error_A_inv, '.15f'), "-> Norma e mai mica decat epsilon: ", is_smaller(error_A_inv))
+# bonus
+A = np.array([[9, 7, 4], [0, 2, 3], [0, 0, 2]], dtype=float)
+print(qr_iteration(A, eps))
