@@ -4,14 +4,20 @@ import numpy as np
 # Definirea funcției de test (puteți înlocui cu funcția dvs.)
 def function_to_minimize(x, y):
     # return x ** 2 + y ** 2 - 2 * x - 4 * y - 1
-    return 3 * x ** 2 - 12 * x + 2 * y ** 2 + 16 * y - 10
+    #return 3 * x ** 2 - 12 * x + 2 * y ** 2 + 16 * y - 10
+    #return x ** 2 - 4 * x * y + 5 * y ** 2 - 4 * y + 3
+    return x ** 2 * y - 2 * x * y ** 2 + 3 * x * y + 4
 
 # Derivatele parțiale ale funcției de test (pentru gradientul analitic)
 def function_gradient(x, y):
     # grad_x = 2 * x - 2
     # grad_y = 2 * y - 4
-    grad_x = 6 * x - 12
-    grad_y = 4 * y + 16
+    # grad_x = 6 * x - 12
+    # grad_y = 4 * y + 16
+    # grad_x = 2 * x - 4 * y
+    # grad_y = -4 * x + 10 * y - 4
+    grad_x = 2*x*y - 2 * y ** 2 + 3 * y
+    grad_y = x ** 2 - 4 *x * y + 3 * x
     return [grad_x, grad_y]
 
 

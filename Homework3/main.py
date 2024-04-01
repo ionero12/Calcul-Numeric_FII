@@ -182,5 +182,5 @@ def qr_iteration(A, epsilon=1e-10):
 #       format(error_A_inv, '.15f'), "-> Norma e mai mica decat epsilon: ", is_smaller(error_A_inv))
 
 # bonus
-A = np.array([[9, 7, 4], [0, 2, 3], [0, 0, 2]], dtype=float)
+A = np.array([[1, 0 , 0], [0, 2, 0], [0, 0, 3]], dtype=float)
 print(qr_iteration(A, eps))
